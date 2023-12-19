@@ -5,6 +5,14 @@ interface ConditionProps {
   text: string;
 }
 
+interface DayProps {
+  maxtemp_c: number;
+  mintemp_c: number;
+  avgtemp_c: number;
+  condition: ConditionProps;
+  uv: number;
+}
+
 export interface HourProps {
   time_epoch: number;
   time: string;
@@ -13,14 +21,6 @@ export interface HourProps {
   humidity: number;
   cloud: number;
   feelslike_c: number;
-  uv: number;
-}
-
-interface DayProps {
-  maxtemp_c: number;
-  mintemp_c: number;
-  avgtemp_c: number;
-  condition: ConditionProps;
   uv: number;
 }
 
@@ -53,12 +53,8 @@ export interface WeatherProps {
   forecast: ForecastProps;
 }
 
-export interface City {
+export interface CityProps {
   id: number;
   name: string;
-  region: string;
   country: string;
-  lat: number;
-  lon: number;
-  url: string;
 }
