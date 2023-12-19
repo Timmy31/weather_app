@@ -12,3 +12,14 @@ export const fetchWeatherData = async (city: string) => {
     console.error('Error fetching weather data:', error);
   }
 };
+
+export const fetchCitySuggestions = async (city: string) => {
+  try {
+    const response = await axios.get(
+      `https://api.weatherapi.com/v1/search.json?q=${city}&key=${API_KEY}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching suggestions:', error);
+  }
+};
