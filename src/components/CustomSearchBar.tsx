@@ -3,12 +3,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   FlatList,
   Text,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CityProps } from '../types';
+import { makeStyles } from 'react-native-elements';
 
 interface CustomSearchBarProps {
   fetchSuggestionList: (text: string) => void;
@@ -23,6 +23,8 @@ export const CustomSearchBar: React.FC<CustomSearchBarProps> = ({
   onPressSearch,
   suggestions,
 }) => {
+    const styles = customStyles();
+
   const renderItem = ({item}: {item: CityProps}) => (
     <TouchableOpacity
       style={styles.suggestionItem}
@@ -60,12 +62,12 @@ export const CustomSearchBar: React.FC<CustomSearchBarProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+const customStyles = makeStyles(({colors}) => ({
   container: {
     position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     borderRadius: 5,
     padding: 8,
     zIndex: 9,
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     top: 60,
     left: 0,
     right: 0,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     elevation: 3,
     maxHeight: 250,
     overflow: 'scroll',
@@ -90,6 +92,6 @@ const styles = StyleSheet.create({
   suggestionItem: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.grey5,
   },
-});
+}));

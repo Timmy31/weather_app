@@ -29,6 +29,7 @@ export const WeatherScreen: FC = () => {
       const data = await fetchCitySuggestions(city);
       setSuggestions(data);
     } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
@@ -81,6 +82,21 @@ export const WeatherScreen: FC = () => {
                 weatherData.location.localtime_epoch,
               )}`}</Text>
             </View>
+          </View>
+
+          <View style={styles.boxWrapper}>
+            <Text>{'Forecast for the next 5 hours:'}</Text>
+            {weatherData.forecast.forecastday[0].hour
+              .slice(1, 6)
+              .map((hour: HourProps) => (
+                <CustomListItem
+                  key={hour.time_epoch}
+                  time={`${getHourFromTime(hour.time_epoch)}:00`}
+                  temperature={hour.temp_c}
+                  icon={hour.condition.icon}
+                  title={hour.condition.text}
+                />
+              ))}
           </View>
         </View>
       )}
