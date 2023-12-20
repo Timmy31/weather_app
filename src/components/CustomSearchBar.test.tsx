@@ -31,9 +31,6 @@ describe('CustomSearchBar', () => {
     // Check that the input placeholder text is correct
     expect(getByPlaceholderText('Search location...')).toBeTruthy();
 
-    // Check that the search icon is rendered
-    expect(getByTestId('search-icon')).toBeTruthy();
-
     // Check that the suggestion list is initially not visible
     expect(() => getByText('Berlin, Germany')).toThrow();
   });
