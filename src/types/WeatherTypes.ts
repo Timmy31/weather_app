@@ -57,4 +57,7 @@ export interface CityProps {
   id: number;
   name: string;
   country: string;
+  region: string;
+  lat?: string;
+  log?: string;
 }

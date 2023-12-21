@@ -1,53 +1,58 @@
-import React, {FC, useEffect, useState} from 'react';
-import {Text, Image, View} from 'react-native';
-import {makeStyles} from 'react-native-elements';
+import React, { FC, useEffect, useState } from 'react';
+import { Text, Image, View } from 'react-native';
+import { makeStyles } from 'react-native-elements';
 
 // Components
-import {CustomSearchBar, CustomListItem} from '../components';
+import { CustomSearchBar, CustomListItem } from '../components';
 // API
-import {fetchCitySuggestions, fetchWeatherData} from '../api/WeatherApi';
+import { fetchCitySuggestions, fetchWeatherData } from '../api/WeatherApi';
 // Types
 import { CityProps, HourProps, WeatherProps } from '../types';
 // Utils
-import {formatTime, getHourFromTime} from '../utils/formatTime';
+import { formatTime, getHourFromTime } from '../utils/formatTime';
 
 export const WeatherScreen: FC = () => {
   const styles = customStyles();
 
-  const [city, setCity] = useState('Berlin');
+  const [location, setLocation] = useState('Berlin');
   const [weatherData, setWeatherData] = useState<WeatherProps>();
-  const [errorMessage, setErrorMessage] = useState('');
   const [suggestions, setSuggestions] = useState<CityProps[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetchWeatherData(city);
+    getWeatherData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getLocationSuggestions = async () => {
-    try {
-      const data = await fetchCitySuggestions(city);
-      setSuggestions(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    if (location.length > 0) {
+      try {
+        const data = await fetchCitySuggestions(location);
+        setSuggestions(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     }
   };
 
   const getWeatherData = async () => {
     setSuggestions([]);
+
     try {
-      const data = await fetchWeatherData(city);
+      const data = await fetchWeatherData(location);
       setWeatherData(data);
-      setErrorMessage('');
+      setLocation('');
     } catch (error) {
-      setErrorMessage(error);
+      setErrorMessage('There is no data available for the selected location!')
       console.error('Error fetching data:', error);
     }
   };
 
   const handleSearch = (searchQuery: string) => {
-    setCity(searchQuery);
+    setLocation(searchQuery);
   };
+
+  const getForcastNo = getHourFromTime(weatherData ? weatherData.location.localtime_epoch : 1);
 
   return (
     <View>
@@ -57,13 +62,9 @@ export const WeatherScreen: FC = () => {
         handleSearch={handleSearch}
         suggestions={suggestions}
       />
-      {errorMessage ? (
-        <View>
-          <Text style={styles.errorText}>{errorMessage}</Text>
-        </View>
-      ) : null}
 
-      {weatherData && (
+
+      {weatherData ? (
         <View style={styles.container}>
           <View style={styles.boxWrapper}>
             <Text>{`${weatherData.location.name}, ${weatherData.location.country}`}</Text>
@@ -87,7 +88,7 @@ export const WeatherScreen: FC = () => {
           <View style={styles.boxWrapper}>
             <Text>{'Forecast for the next 5 hours:'}</Text>
             {weatherData.forecast.forecastday[0].hour
-              .slice(1, 6)
+              .slice(getForcastNo + 1, getForcastNo + 6)
               .map((hour: HourProps) => (
                 <CustomListItem
                   key={hour.time_epoch}
@@ -99,12 +100,14 @@ export const WeatherScreen: FC = () => {
               ))}
           </View>
         </View>
-      )}
+      ) :
+        (<View><Text style={styles.errorText}>{errorMessage}</Text></View>)
+      }
     </View>
   );
 };
 
-const customStyles = makeStyles(({colors}) => ({
+const customStyles = makeStyles(({ colors }) => ({
   container: {
     paddingBottom: 40,
   },
@@ -115,7 +118,7 @@ const customStyles = makeStyles(({colors}) => ({
   },
   temperatureStyle: {
     fontSize: 34,
-    color: colors.black,
+    color: colors?.black,
   },
   boxWrapper: {
     backgroundColor: colors?.white,

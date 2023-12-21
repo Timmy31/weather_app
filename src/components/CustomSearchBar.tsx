@@ -28,8 +28,9 @@ export const CustomSearchBar: React.FC<CustomSearchBarProps> = ({
   const renderItem = ({item}: {item: CityProps}) => (
     <TouchableOpacity
       style={styles.suggestionItem}
+      testID={`search-suggestion-list-${item.id}`}
       onPress={() => {
-        handleSearch(item.name);
+        handleSearch(item.region);
         onPressSearch();
       }}>
       <Text>
@@ -48,9 +49,10 @@ export const CustomSearchBar: React.FC<CustomSearchBarProps> = ({
           handleSearch(searchCity);
         }}
         onSubmitEditing={onPressSearch}
+        testID={'search-input'}
       />
-      <TouchableOpacity style={styles.iconContainer} onPress={onPressSearch}>
-        <Ionicons name="search" size={20} color="#999" />
+      <TouchableOpacity style={styles.iconContainer} onPress={onPressSearch} testID={'search-button'}>
+        <Ionicons name="search" size={20} color="#999" testID={'search-icon'} />
       </TouchableOpacity>
       <FlatList
         style={styles.suggestionList}
@@ -67,7 +69,7 @@ const customStyles = makeStyles(({colors}) => ({
     position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.white,
+    backgroundColor: colors?.white,
     borderRadius: 5,
     padding: 8,
     zIndex: 9,
@@ -84,7 +86,7 @@ const customStyles = makeStyles(({colors}) => ({
     top: 60,
     left: 0,
     right: 0,
-    backgroundColor: colors.white,
+    backgroundColor: colors?.white,
     elevation: 3,
     maxHeight: 250,
     overflow: 'scroll',
@@ -92,6 +94,6 @@ const customStyles = makeStyles(({colors}) => ({
   suggestionItem: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: colors.grey5,
+    borderBottomColor: colors?.grey5,
   },
 }));
