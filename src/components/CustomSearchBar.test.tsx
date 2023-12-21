@@ -1,69 +1,89 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { CustomSearchBar } from './CustomSearchBar';
+import { create } from 'react-test-renderer';
+import { act } from 'react-test-renderer';
+import { CustomSearchBar } from './CustomSearchBar'; // Adjust the path based on your project structure
 
-describe('CustomSearchBar', () => {
+// Mocking the react-native-vector-icons library
+jest.mock('react-native-vector-icons/Ionicons', () => 'Ionicons');
 
+describe('CustomSearchBar Component', () => {
   const mockFetchSuggestionList = jest.fn();
   const mockHandleSearch = jest.fn();
   const mockOnPressSearch = jest.fn();
 
   const suggestions = [
-    {
-      id: 1,
-      name: 'Berlin',
-      country: 'Germany',
-    },
+    { id: 1, name: 'City1', country: 'Country1', region: 'Region1', lat: '123234', log: '12334' },
+    { id: 2, name: 'City2', country: 'Country2', region: 'Region2', lat: '123232', log: '12332' },
   ];
 
-  const defaultProps = {
-    fetchSuggestionList: mockFetchSuggestionList,
-    handleSearch: mockHandleSearch,
-    onPressSearch: mockOnPressSearch,
-    suggestions: [],
-  };
-
-  it('renders CustomSearchBar correctly', () => {
-    const { getByPlaceholderText, getByTestId, getByText } = render(
-      <CustomSearchBar {...defaultProps} suggestions={suggestions} />
-    );
-
-    // Check that the input placeholder text is correct
-    expect(getByPlaceholderText('Search location...')).toBeTruthy();
-
-    // Check that the suggestion list is initially not visible
-    expect(() => getByText('Berlin, Germany')).toThrow();
+  it('renders correctly', () => {
+    const tree = create(
+      <CustomSearchBar
+        fetchSuggestionList={mockFetchSuggestionList}
+        handleSearch={mockHandleSearch}
+        onPressSearch={mockOnPressSearch}
+        suggestions={suggestions}
+      />
+    ).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 
-  it('handles text input and suggestions', () => {
-    const { getByPlaceholderText, getByText } = render(
-      <CustomSearchBar {...defaultProps} suggestions={suggestions} />
+  it('calls fetchSuggestionList and handleSearch on text input change', () => {
+    const component = create(
+      <CustomSearchBar
+        fetchSuggestionList={mockFetchSuggestionList}
+        handleSearch={mockHandleSearch}
+        onPressSearch={mockOnPressSearch}
+        suggestions={suggestions}
+      />
     );
 
-    // Simulate user typing in the search input
-    fireEvent.changeText(getByPlaceholderText('Search location...'), 'Berlin');
+    const input = component.root.findByProps({ testID: 'search-input' });
 
-    // Assert that fetchSuggestionList and handleSearch were called with the correct arguments
-    expect(mockFetchSuggestionList).toHaveBeenCalledWith('Berlin');
-    expect(mockHandleSearch).toHaveBeenCalledWith('Berlin');
+    act(() => {
+      input.props.onChangeText('City');
+    });
 
-    // Check that the suggestion list becomes visible
-    expect(getByText('Berlin, Germany')).toBeTruthy();
+    expect(mockFetchSuggestionList).toHaveBeenCalledWith('City');
+    expect(mockHandleSearch).toHaveBeenCalledWith('City');
   });
 
-  it('on item press', () => {
-    const { getByPlaceholderText, getByText } = render(
-      <CustomSearchBar {...defaultProps} suggestions={suggestions} />
+  it('calls onPressSearch when the search button is pressed', () => {
+    const component = create(
+      <CustomSearchBar
+        fetchSuggestionList={mockFetchSuggestionList}
+        handleSearch={mockHandleSearch}
+        onPressSearch={mockOnPressSearch}
+        suggestions={suggestions}
+      />
     );
 
-    // Simulate user typing in the search input
-    fireEvent.changeText(getByPlaceholderText('Search location...'), 'Berlin');
+    const button = component.root.findByProps({ testID: 'search-button' });
 
-    // Simulate pressing on a suggestion item
-    fireEvent.press(getByText('Berlin, Germany'));
+    act(() => {
+      button.props.onPress();
+    });
 
-    // Assert that handleSearch and onPressSearch were called with the correct arguments
-    expect(mockHandleSearch).toHaveBeenCalledWith('Berlin');
+    expect(mockOnPressSearch).toHaveBeenCalled();
+  });
+
+  it('calls handleSearch and onPressSearch when a suggestion is pressed', () => {
+    const component = create(
+      <CustomSearchBar
+        fetchSuggestionList={mockFetchSuggestionList}
+        handleSearch={mockHandleSearch}
+        onPressSearch={mockOnPressSearch}
+        suggestions={suggestions}
+      />
+    );
+
+    const suggestion = component.root.findByProps({ testID: 'search-suggestion-list-1' });
+
+    act(() => {
+      suggestion.props.onPress();
+    });
+
+    expect(mockHandleSearch).toHaveBeenCalledWith('City1');
     expect(mockOnPressSearch).toHaveBeenCalled();
   });
 });

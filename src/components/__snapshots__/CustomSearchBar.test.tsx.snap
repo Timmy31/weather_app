@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomSearchBar Component renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#ffffff",
+      "borderRadius": 5,
+      "flexDirection": "row",
+      "padding": 8,
+      "position": "relative",
+      "zIndex": 9,
+    }
+  }
+>
+  <TextInput
+    onChangeText={[Function]}
+    onSubmitEditing={[MockFunction]}
+    placeholder="Search location..."
+    style={
+      {
+        "flex": 1,
+        "marginHorizontal": 16,
+      }
+    }
+    testID="search-input"
+  />
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "opacity": 1,
+        "padding": 8,
+      }
+    }
+    testID="search-button"
+  >
+    <Text
+      allowFontScaling={false}
+      selectable={false}
+      style={
+        [
+          {
+            "color": "#999",
+            "fontSize": 20,
+          },
+          undefined,
+          {
+            "fontFamily": "Ionicons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          {},
+        ]
+      }
+      testID="search-icon"
+    >
+      
+    </Text>
+  </View>
+  <RCTScrollView
+    data={
+      [
+        {
+          "country": "Country1",
+          "id": 1,
+          "name": "City1",
+        },
+        {
+          "country": "Country2",
+          "id": 2,
+          "name": "City2",
+        },
+      ]
+    }
+    getItem={[Function]}
+    getItemCount={[Function]}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={0.0001}
+    stickyHeaderIndices={[]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "elevation": 3,
+        "left": 0,
+        "maxHeight": 250,
+        "overflow": "scroll",
+        "position": "absolute",
+        "right": 0,
+        "top": 60,
+      }
+    }
+    viewabilityConfigCallbackPairs={[]}
+  >
+    <View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "borderBottomColor": "#e1e8ee",
+              "borderBottomWidth": 1,
+              "opacity": 1,
+              "padding": 10,
+            }
+          }
+          testID="search-suggestion-list"
+        >
+          <Text>
+            City1
+            , 
+            Country1
+          </Text>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "borderBottomColor": "#e1e8ee",
+              "borderBottomWidth": 1,
+              "opacity": 1,
+              "padding": 10,
+            }
+          }
+          testID="search-suggestion-list"
+        >
+          <Text>
+            City2
+            , 
+            Country2
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

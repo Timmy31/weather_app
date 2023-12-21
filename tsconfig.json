@@ -4,4 +4,14 @@
     "jsx": "react-native",
     "esModuleInterop": true,
   },
+  "types": [
+    "react",
+    "react-dom",
+    "jest",
+    "react-test-renderer"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }
