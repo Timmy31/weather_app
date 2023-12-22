@@ -1,9 +1,8 @@
 import React from 'react';
 import { create } from 'react-test-renderer';
 import { act } from 'react-test-renderer';
-import { CustomSearchBar } from './CustomSearchBar'; // Adjust the path based on your project structure
+import { CustomSearchBar } from './CustomSearchBar';
 
-// Mocking the react-native-vector-icons library
 jest.mock('react-native-vector-icons/Ionicons', () => 'Ionicons');
 
 describe('CustomSearchBar Component', () => {

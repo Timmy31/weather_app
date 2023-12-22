@@ -1,7 +1,7 @@
 // HourlyItem.tsx
-import React, {FC} from 'react';
-import {Image} from 'react-native';
-import {ListItem, makeStyles} from 'react-native-elements';
+import React, { FC } from 'react';
+import { Image, StyleSheet } from 'react-native';
+import { ListItem } from 'react-native-elements';
 
 interface CustomListItemProps {
   title: string;
@@ -16,25 +16,24 @@ export const CustomListItem: FC<CustomListItemProps> = ({
   icon,
   temperature,
 }) => {
-  const styles = customStyles();
   return (
-    <ListItem key={time} containerStyle={styles.containerStyle}>
+    <ListItem key={time} containerStyle={customStyles.containerStyle}>
       <Image
         source={{
           uri: `https:${icon}`,
         }}
-        style={styles.iconStyle}
+        style={customStyles.iconStyle}
       />
       <ListItem.Content>
-        <ListItem.Title>{`${title}`}</ListItem.Title>
-        <ListItem.Subtitle>{`${time}`}</ListItem.Subtitle>
+        <ListItem.Title>{title}</ListItem.Title>
+        <ListItem.Subtitle>{time}</ListItem.Subtitle>
       </ListItem.Content>
-      <ListItem.Title>{`${`${temperature}°C`}`}</ListItem.Title>
+      <ListItem.Title>{`${temperature}°C`}</ListItem.Title>
     </ListItem>
   );
 };
 
-const customStyles = makeStyles(() => ({
+const customStyles = StyleSheet.create({
   containerStyle: {
     paddingVertical: 10,
   },
@@ -42,4 +41,4 @@ const customStyles = makeStyles(() => ({
     width: 40,
     height: 40,
   },
-}));
+});

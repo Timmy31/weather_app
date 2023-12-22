@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Text, Image, View } from 'react-native';
-import { makeStyles } from 'react-native-elements';
+import { Text, Image, View, StyleSheet } from 'react-native';
 
 // Components
 import { CustomSearchBar, CustomListItem } from '../components';
@@ -11,13 +10,12 @@ import { CityProps, HourProps, WeatherProps } from '../types';
 // Utils
 import { formatTime, getHourFromTime } from '../utils/formatTime';
 
-export const WeatherScreen: FC = () => {
-  const styles = customStyles();
+const WeatherScreen: FC = () => {
 
   const [location, setLocation] = useState('Berlin');
   const [weatherData, setWeatherData] = useState<WeatherProps>();
-  const [suggestions, setSuggestions] = useState<CityProps[]>([]);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [suggestions, setSuggestions] = useState<CityProps[]>();
+  const [errorMessage, setErrorMessage] = useState('No data avilable');
 
   useEffect(() => {
     getWeatherData();
@@ -30,21 +28,21 @@ export const WeatherScreen: FC = () => {
         const data = await fetchCitySuggestions(location);
         setSuggestions(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
       }
     }
   };
 
   const getWeatherData = async () => {
-    setSuggestions([]);
+    setSuggestions(undefined);
 
     try {
       const data = await fetchWeatherData(location);
       setWeatherData(data);
       setLocation('');
+      setErrorMessage('');
     } catch (error) {
-      setErrorMessage('There is no data available for the selected location!')
-      console.error('Error fetching data:', error);
+      setErrorMessage('There is no data available for the selected location!');
+      setWeatherData(undefined);
     }
   };
 
@@ -62,20 +60,18 @@ export const WeatherScreen: FC = () => {
         handleSearch={handleSearch}
         suggestions={suggestions}
       />
-
-
       {weatherData ? (
-        <View style={styles.container}>
-          <View style={styles.boxWrapper}>
+        <View style={customStyles.container}>
+          <View style={customStyles.boxWrapper}>
             <Text>{`${weatherData.location.name}, ${weatherData.location.country}`}</Text>
-            <View style={styles.currentWeatherIconWrapper}>
+            <View style={customStyles.currentWeatherIconWrapper}>
               <Image
                 source={{
                   uri: `https:${weatherData.current.condition.icon}`,
                 }}
-                style={styles.currentIconStyle}
+                style={customStyles.currentIconStyle}
               />
-              <Text style={styles.temperatureStyle}>
+              <Text style={customStyles.temperatureStyle}>
                 {weatherData.current.temp_c} °C
               </Text>
               <Text>{weatherData.current.condition.text}</Text>
@@ -85,7 +81,7 @@ export const WeatherScreen: FC = () => {
             </View>
           </View>
 
-          <View style={styles.boxWrapper}>
+          <View style={customStyles.boxWrapper}>
             <Text>{'Forecast for the next 5 hours:'}</Text>
             {weatherData.forecast.forecastday[0].hour
               .slice(getForcastNo + 1, getForcastNo + 6)
@@ -101,27 +97,29 @@ export const WeatherScreen: FC = () => {
           </View>
         </View>
       ) :
-        (<View><Text style={styles.errorText}>{errorMessage}</Text></View>)
+        (<View><Text style={customStyles.errorText}>{errorMessage}</Text></View>)
       }
     </View>
   );
 };
 
-const customStyles = makeStyles(({ colors }) => ({
+export default WeatherScreen;
+
+const customStyles = StyleSheet.create({
   container: {
     paddingBottom: 40,
   },
   errorText: {
-    color: colors?.error,
+    color: 'red',
     textAlign: 'center',
     padding: 16,
   },
   temperatureStyle: {
     fontSize: 34,
-    color: colors?.black,
+    color: 'black',
   },
   boxWrapper: {
-    backgroundColor: colors?.white,
+    backgroundColor: 'white',
     marginTop: 20,
     marginHorizontal: 20,
     padding: 20,
@@ -138,4 +136,4 @@ const customStyles = makeStyles(({ colors }) => ({
     width: 40,
     height: 40,
   },
-}));
+});

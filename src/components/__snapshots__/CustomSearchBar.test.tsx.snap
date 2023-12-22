@@ -5,7 +5,7 @@ exports[`CustomSearchBar Component renders correctly 1`] = `
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "#ffffff",
+      "backgroundColor": "white",
       "borderRadius": 5,
       "flexDirection": "row",
       "padding": 8,
@@ -62,28 +62,12 @@ exports[`CustomSearchBar Component renders correctly 1`] = `
     }
     testID="search-button"
   >
-    <Text
-      allowFontScaling={false}
-      selectable={false}
-      style={
-        [
-          {
-            "color": "#999",
-            "fontSize": 20,
-          },
-          undefined,
-          {
-            "fontFamily": "Ionicons",
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          },
-          {},
-        ]
-      }
+    <Ionicons
+      color="#999"
+      name="search"
+      size={20}
       testID="search-icon"
-    >
-      
-    </Text>
+    />
   </View>
   <RCTScrollView
     data={
@@ -91,12 +75,18 @@ exports[`CustomSearchBar Component renders correctly 1`] = `
         {
           "country": "Country1",
           "id": 1,
+          "lat": "123234",
+          "log": "12334",
           "name": "City1",
+          "region": "Region1",
         },
         {
           "country": "Country2",
           "id": 2,
+          "lat": "123232",
+          "log": "12332",
           "name": "City2",
+          "region": "Region2",
         },
       ]
     }
@@ -116,7 +106,7 @@ exports[`CustomSearchBar Component renders correctly 1`] = `
     stickyHeaderIndices={[]}
     style={
       {
-        "backgroundColor": "#ffffff",
+        "backgroundColor": "white",
         "elevation": 3,
         "left": 0,
         "maxHeight": 250,
@@ -164,13 +154,13 @@ exports[`CustomSearchBar Component renders correctly 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             {
-              "borderBottomColor": "#e1e8ee",
+              "borderBottomColor": "#eee",
               "borderBottomWidth": 1,
               "opacity": 1,
               "padding": 10,
             }
           }
-          testID="search-suggestion-list"
+          testID="search-suggestion-list-1"
         >
           <Text>
             City1
@@ -214,13 +204,13 @@ exports[`CustomSearchBar Component renders correctly 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             {
-              "borderBottomColor": "#e1e8ee",
+              "borderBottomColor": "#eee",
               "borderBottomWidth": 1,
               "opacity": 1,
               "padding": 10,
             }
           }
-          testID="search-suggestion-list"
+          testID="search-suggestion-list-2"
         >
           <Text>
             City2
